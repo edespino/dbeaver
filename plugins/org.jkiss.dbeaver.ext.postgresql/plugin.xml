@@ -389,6 +389,22 @@
                 </driver>
 
                 <driver
+                    id="postgres-cloudberry-jdbc"
+                    label="Cloudberry"
+                    class="org.postgresql.Driver"
+                    sampleURL="jdbc:postgresql://{host}[:{port}]/[{database}]"
+                    useURL="false"
+                    defaultPort="5432"
+                    defaultDatabase="postgres"
+                    defaultUser="postgres"
+                    propertiesURL="https://jdbc.postgresql.org/documentation/head/connect.html#connection-parameters"
+                    description="Obsolete"
+                    supportedConfigurationTypes="MANUAL,URL"
+                    dialect="postgresql">
+                    <parameter name="serverType" value="cloudberry"/>
+                </driver>
+
+                <driver
                     id="postgres-timescale-jdbc"
                     label="TimescaleDB"
                     icon="icons/timescale_icon.png"
@@ -740,6 +756,21 @@
 
             <datasource id="postgresql"/>
             <datasource id="greenplum"/>
+            <datasource id="cloudberry"/>
+
+            <type name="*"/>
+        </provider>
+    </extension>
+
+    <extension point="org.jkiss.dbeaver.dataTypeProvider">
+        <provider
+                class="org.jkiss.dbeaver.ext.postgresql.model.data.PostgreValueHandlerProvider"
+                description="%provider.data.type.postgresql.description"
+                id="org.jkiss.dbeaver.ext.postgresql.model.data.PostgreValueHandlerProvider"
+                label="%provider.data.type.postgresql.name">
+
+            <datasource id="postgresql"/>
+            <datasource id="cloudberry"/>
 
             <type name="*"/>
         </provider>

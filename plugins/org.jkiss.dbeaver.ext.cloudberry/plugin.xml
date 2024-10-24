@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+
+<plugin>
+    <extension point="org.jkiss.dbeaver.postgresql.serverType">
+        <serverType id="cloudberry"
+                    name="Cloudberry"
+                    class="org.jkiss.dbeaver.ext.cloudberry.model.PostgreServerCloudberry"
+                    logo="icons/cloudberry_logo.png"
+                    customURL="true" turnOffPreparedStatements="true"/>
+    </extension>
+
+    <extension point="org.jkiss.dbeaver.dataSourceProvider">
+        <datasource
+                class="org.jkiss.dbeaver.ext.cloudberry.CloudberryDataSourceProvider"
+                description="%datasource.cloudberry.description"
+                id="cloudberry"
+                parent="postgresql"
+                label="Cloudberry"
+                icon="icons/cloudberry_icon.png"
+                dialect="cloudberry"
+                inheritClients="true">
+
+            <treeInjection path="postgresql/database/schema/table"
+                           changeFolderType="org.jkiss.dbeaver.ext.cloudberry.model.CloudberryTable"/>
+            <treeInjection path="postgresql/database/schema" after="table">
+                <folder type="org.jkiss.dbeaver.ext.cloudberry.model.CloudberryExternalTable"
+                        label="%tree.externaltables.node.name"
+                        icon="#folder_table" visibleIf="object.dataSource.supportsExternalTables()">
+                    <items label="%tree.externaltable.node.name" path="externalTable" property="externalTables"
+                           icon="#table_external">
+                        <folder type="org.jkiss.dbeaver.ext.postgresql.model.PostgreTableColumn"
+                                label="%tree.columns.node.name" icon="#columns" description="Table columns">
+                            <items label="%tree.column.node.name" path="attribute" property="attributes" icon="#column">
+                            </items>
+                        </folder>
+                    </items>
+                </folder>
+            </treeInjection>
+
+            <drivers managable="true">
+                <driver
+                        id="cloudberry-jdbc"
+                        label="Cloudberry"
+                        icon="icons/cloudberry_icon.png"
+                        iconBig="icons/cloudberry_icon_big.png"
+                        class="org.postgresql.Driver"
+                        sampleURL="jdbc:postgresql://{host}[:{port}]/[{database}]"
+                        defaultPort="5432"
+                        webURL="https://cloudberry.org/"
+                        propertiesURL="https://jdbc.postgresql.org/documentation/head/connect.html#connection-parameters"
+                        databaseDocumentationSuffixURL="Database-driver-Cloudberry"
+                        description="%driver.cloudberry.description"
+                        categories="sql,analytic">
+                    <replace provider="postgresql" driver="postgres-cloudberry-jdbc"/>
+
+                    <file type="jar" path="maven:/org.postgresql:postgresql:RELEASE[42.7.2]"
+                          bundle="!drivers.postgresql"/>
+                    <file type="jar" path="maven:/net.postgis:postgis-jdbc:RELEASE[2.5.0]" ignore-dependencies="true"
+                          optional="true" bundle="!drivers.postgresql"/>
+                    <file type="jar" path="maven:/net.postgis:postgis-jdbc-jtsparser:RELEASE[2.5.0]"
+                          ignore-dependencies="true" optional="true" bundle="!drivers.postgresql"/>
+                    <file type="jar" path="maven:/net.postgis:postgis-geometry:RELEASE[2.5.0]"
+                          ignore-dependencies="true" optional="true" bundle="!drivers.postgresql"/>
+                    <file type="license" path="https://raw.githubusercontent.com/pgjdbc/pgjdbc/master/LICENSE" bundle="!drivers.postgresql"/>
+
+                    <file type="license" path="drivers/postgresql/LICENSE.txt" bundle="drivers.postgresql"/>
+                    <file type="jar" path="drivers/postgresql" bundle="drivers.postgresql"/>
+                    <file type="jar" path="drivers/postgis" bundle="drivers.postgresql"/>
+<!--                    <file type="jar" path="drivers/waffle" bundle="drivers.postgresql"/>-->
+                    <parameter name="serverType" value="cloudberry"/>
+                    <property name="loginTimeout" value="20"/>
+                    <property name="connectTimeout" value="20"/>
+                    <property name="prepareThreshold" value="0"/>
+                </driver>
+
+                <provider-properties drivers="*">
+                    <propertyGroup label="Misc">
+                        <property id="@dbeaver-chosen-role@" label="User role" type="string" description="User role for connection"/>
+                    </propertyGroup>
+                    <propertyGroup label="Database list">
+                        <property id="@dbeaver-show-non-default-db@" label="Show all databases" type="boolean" description="Show all databases on server. Otherwise show current database only."/>
+                        <property id="@dbeaver-show-unavailable-db@" label="Show unavailable databases" type="boolean" description="Show databases not unavailable for connection."/>
+                    </propertyGroup>
+                </provider-properties>
+            </drivers>
+        </datasource>
+    </extension>
+
+    <extension point="org.jkiss.dbeaver.objectManager">
+        <manager class="org.jkiss.dbeaver.ext.cloudberry.edit.CloudberrySchemaManager"
+                 objectType="org.jkiss.dbeaver.ext.cloudberry.model.CloudberrySchema"/>
+        <manager class="org.jkiss.dbeaver.ext.cloudberry.edit.CloudberryTableManager"
+                 objectType="org.jkiss.dbeaver.ext.cloudberry.model.CloudberryTable"/>
+        <manager class="org.jkiss.dbeaver.ext.cloudberry.edit.CloudberryExternalTableManager"
+                 containerType="org.jkiss.dbeaver.ext.cloudberry.model.CloudberrySchema"
+                 objectType="org.jkiss.dbeaver.ext.cloudberry.model.CloudberryExternalTable"/>
+        <manager class="org.jkiss.dbeaver.ext.cloudberry.edit.CloudberryFunctionManager"
+                 objectType="org.jkiss.dbeaver.ext.cloudberry.model.CloudberryFunction"/>
+    </extension>
+
+    <extension point="org.jkiss.dbeaver.sqlDialect">
+        <dialect id="cloudberry" parent="postgresql" class="org.jkiss.dbeaver.ext.postgresql.model.PostgreDialect" label="Cloudberry" description="Cloudberry dialect." icon="icons/cloudberry_icon.png">
+            <keywords value=""/>
+            <execKeywords value=""/>
+            <ddlKeywords value=""/>
+            <dmlKeywords value=""/>
+            <functions value=""/>
+            <types value=""/>
+
+            <property name="" value=""/>
+        </dialect>
+    </extension>
+
+</plugin>

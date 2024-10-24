@@ -481,7 +481,7 @@ public class PostgreRole implements
                 log.error("Error reading routine privileges", e);
             }
             // Select acl for all schemas, sequences and materialized views
-            boolean supportsDistinct = getDataSource().getServerType().supportsDistinctForStatementsWithAcl(); // Greenplum do not support DISTINCT keyword with the acl data type in the query
+            boolean supportsDistinct = getDataSource().getServerType().supportsDistinctForStatementsWithAcl(); // Greenplum & Cloudberry do not support DISTINCT keyword with the acl data type in the query
             boolean supportsOnlySchemasPermissions = !getDataSource().isServerVersionAtLeast(9,0); // So we can't use aclexplode in old PG versions. Let's read only schemas permissions then
             String otherObjectsSQL;
             if (supportsOnlySchemasPermissions) {

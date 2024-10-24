@@ -47,6 +47,10 @@ public interface PostgreClass extends PostgreObject, DBSEntity, DBPRefreshableOb
         public static final RelKind M = new RelKind("M"); // special (?? Greenplum 6+)
         public static final RelKind o = new RelKind("o"); // special (?? Greenplum 6+)
 
+        // Cloudberry
+        public static final RelKind M = new RelKind("C"); // special (?? Cloudberry 1+)
+        public static final RelKind o = new RelKind("b"); // special (?? Cloudberry 1+)
+
         private final String code;
 
         public RelKind(String code) {

@@ -42,6 +42,7 @@
         <editorContribution editorId="org.jkiss.dbeaver.ext.postgresql.ui.editors.PostgreSessionEditor" category="connectionEditor" label="%editor.session_manager.name" icon="platform:/plugin/org.jkiss.dbeaver.model/icons/tree/sessions.png">
             <supports dataSource="postgresql"/>
             <supports dataSource="greenplum"/>
+            <supports dataSource="cloudberry"/>
             <supports dataSource="redshift"/>
             <supports dataSource="enterprisedb"/>
             <supports dataSource="gaussdb"/>
@@ -49,6 +50,7 @@
         <editorContribution editorId="org.jkiss.dbeaver.ext.postgresql.ui.editors.PostgreLockEditor" category="connectionEditor" label="%editor.lock_manager.name" icon="#locked" visibleIf="connected &amp;&amp; dataSource.serverType.supportsLocks()">
             <supports dataSource="postgresql"/>
             <supports dataSource="greenplum"/>
+            <supports dataSource="cloudberry"/>
             <supports dataSource="enterprisedb"/>
             <supports dataSource="gaussdb"/>
         </editorContribution>
